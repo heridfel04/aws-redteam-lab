@@ -73,7 +73,7 @@
 
 #Notes:
 - Monitor CloudTrail, GuardDuty, and S3 logs to detect and respond to these attacks quickly.
-- Regular audits and alerts for suspicious activities like privilege escalation and data exfiltration will improve security.
+- Regular audits and alarm-alerts for suspicious activities for privilege escalation and data exfiltration will improve security.
 
 
 
